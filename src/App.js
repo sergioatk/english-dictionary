@@ -1,24 +1,38 @@
-import logo from './logo.svg';
-import './App.css';
+import { Center, Flex } from "@chakra-ui/react";
+import { useState } from "react";
+import EntryList from "./components/EntryList";
+import Header from "./components/Header";
+import SearchInput from "./components/SearchInput";
+import { Spinner } from "@chakra-ui/react";
 
 function App() {
+  const [results, setResults] = useState([]);
+  const [searchWord, setSearchWord] = useState("");
+  const [loading, setLoading] = useState(false);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Flex direction={"column"}>
+      <Header searchWord={searchWord} />
+      <SearchInput
+        setResults={setResults}
+        searchWord={searchWord}
+        setSearchWord={setSearchWord}
+        setLoading={setLoading}
+      />
+      {loading ? (
+        <Center>
+          <Spinner
+            thickness="4px"
+            speed="0.65s"
+            emptyColor="gray.200"
+            color="green.400"
+            size="xl"
+          />
+        </Center>
+      ) : (
+        <EntryList results={results} />
+      )}
+    </Flex>
   );
 }
 
